@@ -78,6 +78,6 @@ class Task1 {
         TestTransaction.end();
 
         // then
-        assertThrows( EntityNotFoundException.class, () -> serverRepository.getById(server.getId()));
+        assertThrows(EntityNotFoundException.class, () -> serverRepository.getById(server.getId()));
     }
 }

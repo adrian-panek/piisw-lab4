@@ -4,19 +4,22 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.*;
+import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Column;
+import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@OptimisticLocking(type = OptimisticLockType.ALL)
+@DynamicUpdate
+@SQLDelete(sql = "UPDATE table_product SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class Server {
 
     @Id
@@ -30,6 +33,20 @@ public class Server {
     @Column(nullable = false)
     private String ip;
 
+    @Column
+    @CreationTimestamp
+    private LocalDateTime createdDate = LocalDateTime.now();
+
+    @Column
+    @UpdateTimestamp
+    private LocalDateTime lastUpdatedDate;
+
+    @Column
+    private boolean deleted = Boolean.FALSE;
+
+    @Version
+    private Long version;
+
     public Server(String name, String ip) {
         super();
         this.name = name;
@@ -37,18 +54,15 @@ public class Server {
     }
 
     public Long getVersion(){
-        //todo: uncomment it
-        return null;
+        return this.version;
     }
 
     public LocalDateTime getCreatedDate(){
-        //todo: uncomment it
-        return null;
+        return this.createdDate;
     }
 
     public LocalDateTime getLastUpdateDate(){
-        //todo: uncomment it
-        return null;
+        return this.lastUpdatedDate;
     }
 
 }
