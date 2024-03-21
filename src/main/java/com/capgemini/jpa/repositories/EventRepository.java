@@ -14,4 +14,8 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Long> {
     Page<Event> findAllByTimeIsBetweenAndAnalysisRequired (LocalDateTime start, LocalDateTime end, boolean toBeAnalyzed, Pageable pageable);
     void deleteAllByTimeLessThan(LocalDateTime givenDate);
+
+    @Query("SELECT NEW com.capgemini.jpa.repositories.ServerStatistic(e.server, COUNT(e.id)) FROM Event e GROUP BY e.server")
+    List<ServerStatistic> listServerDetails();
+
 }

@@ -30,7 +30,7 @@ class Task4 {
         int expectedServer_3 = 11;
 
         // when
-        List<ServerStatistic> result = new ArrayList<>();
+        List<ServerStatistic> result = eventRepository.listServerDetails();
 
         // then
 

@@ -74,7 +74,7 @@ class Task2 {
         Page<Event> result = eventRepository.findAllByTimeIsBetweenAndAnalysisRequired(start, end, toBeAnalyzed, PageRequest.of(page, pageSize, sort));
 
         // then
-        assertThat(result.getTotalElements(), is(0L)); // should expected value be an integer?
+        assertThat(result.getTotalElements(), is(0)); // should expected value be an integer?
         assertThat(result.getContent(), hasSize(0));
     }
 }
