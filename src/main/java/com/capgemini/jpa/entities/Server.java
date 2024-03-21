@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
@@ -17,9 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @OptimisticLocking(type = OptimisticLockType.ALL)
-@DynamicUpdate
-@SQLDelete(sql = "UPDATE table_product SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
+@SQLDelete(sql="UPDATE server SET isActive=false WHERE id=?")
 public class Server {
 
     @Id
@@ -33,6 +29,12 @@ public class Server {
     @Column(nullable = false)
     private String ip;
 
+    @Version
+    private Long version;
+
+    @Column
+    private Boolean isActive = Boolean.TRUE;
+
     @Column
     @CreationTimestamp
     private LocalDateTime createdDate = LocalDateTime.now();
@@ -40,12 +42,6 @@ public class Server {
     @Column
     @UpdateTimestamp
     private LocalDateTime lastUpdatedDate;
-
-    @Column
-    private boolean deleted = Boolean.FALSE;
-
-    @Version
-    private Long version;
 
     public Server(String name, String ip) {
         super();
@@ -63,6 +59,11 @@ public class Server {
 
     public LocalDateTime getLastUpdateDate(){
         return this.lastUpdatedDate;
+    }
+
+    @PreRemove
+    public void preRemove(){
+        this.isActive = false;
     }
 
 }
