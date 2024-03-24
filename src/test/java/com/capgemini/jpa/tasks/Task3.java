@@ -44,7 +44,7 @@ class Task3 {
         Class<RequestEvent> clazz = RequestEvent.class;
 
         // when
-//		eventRepository.updateEventsByDurationGreaterThan(clazz, threshold);
+		eventRepository.updateEventsByEventDuration(clazz, threshold);
 
         // then
         assertThat(new SimpleJpaRepository<Event, Long>(Event.class, entityManager).findAll().stream()//

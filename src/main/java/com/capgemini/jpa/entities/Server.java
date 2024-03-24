@@ -33,7 +33,7 @@ public class Server {
     private Long version;
 
     @Column
-    private Boolean isActive = Boolean.TRUE;
+    private Boolean isActive = true;
 
     @Column
     @CreationTimestamp

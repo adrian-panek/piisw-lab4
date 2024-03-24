@@ -15,7 +15,11 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     Page<Event> findAllByTimeIsBetweenAndAnalysisRequired (LocalDateTime start, LocalDateTime end, boolean toBeAnalyzed, Pageable pageable);
     void deleteAllByTimeLessThan(LocalDateTime givenDate);
 
-    @Query("SELECT NEW com.capgemini.jpa.repositories.ServerStatistic(e.server, COUNT(e.id)) FROM Event e GROUP BY e.server")
+    @Modifying
+    @Query("UPDATE Event e SET e.analysisRequired = 'T' WHERE e.duration > :minDuration and TYPE(e) = :clazz")
+    void updateEventsByEventDuration(@Param("clazz") Class <? extends Event> clazz, @Param("minDuration") int minDuration);
+
+    @Query("SELECT NEW com.capgemini.jpa.repositories.ServerStatistic(e.server, COUNT(e)) FROM Event e GROUP BY e.server")
     List<ServerStatistic> listServerDetails();
 
 }
