@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @OptimisticLocking(type = OptimisticLockType.ALL)
 @SQLDelete(sql="UPDATE server SET isActive=false WHERE id=?")
+@Where(clause="is_active=true or is_active IS NULL")
 public class Server {
 
     @Id
@@ -61,9 +62,9 @@ public class Server {
         return this.lastUpdatedDate;
     }
 
-    @PreRemove
-    public void preRemove(){
-        this.isActive = false;
-    }
+//    @PreRemove
+//    public void preRemove(){
+//        this.isActive = false;
+//    }
 
 }
