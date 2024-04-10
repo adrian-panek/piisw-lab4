@@ -50,7 +50,7 @@ class Task3 {
         assertThat(new SimpleJpaRepository<Event, Long>(Event.class, entityManager).findAll().stream()//
                 .filter(e -> e.getDuration() > threshold)//
                 .filter(Event::isAnalysisRequired)//
-                .count(), CoreMatchers.is(3));
+                .count(), CoreMatchers.is(3L));
     }
 
 }

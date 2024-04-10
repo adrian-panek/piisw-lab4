@@ -25,9 +25,9 @@ class Task4 {
     @Test
     void shouldCountEventsByServer() throws Exception {
         // given ensured by script
-        int expectedServer_1 = 15;
-        int expectedServer_2 = 14;
-        int expectedServer_3 = 11;
+        long expectedServer_1 = 15l;
+        long expectedServer_2 = 14l;
+        long expectedServer_3 = 11l;
 
         // when
         List<ServerStatistic> result = eventRepository.listServerDetails();
